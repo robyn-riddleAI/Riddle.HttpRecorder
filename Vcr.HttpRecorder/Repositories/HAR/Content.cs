@@ -29,14 +29,14 @@ namespace Vcr.HttpRecorder.Repositories.HAR
                 var bodyBytes = content.ReadAsByteArrayAsync().Result;
                 Size = bodyBytes.Length;
                 MimeType = content.Headers?.ContentType?.ToString();
-                if (content.IsUtf8())
-                {
-                    Text = System.Text.Encoding.UTF8.GetString(bodyBytes);
-                }
-                else
+                if (content.IsBinary())
                 {
                     Text = Convert.ToBase64String(bodyBytes);
                     Encoding = EncodingBase64;
+                }
+                else if (!content.IsFormData())
+                {
+                    Text = System.Text.Encoding.UTF8.GetString(bodyBytes);
                 }
             }
         }

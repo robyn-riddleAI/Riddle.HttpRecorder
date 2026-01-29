@@ -134,7 +134,7 @@ namespace Vcr.HttpRecorder
                 sw.Stop();
 
                 var newInteractionMessage = new InteractionMessage(
-                    innerResponse,
+                    innerResponse.Clone(),
                     new InteractionMessageTimings(start, sw.Elapsed));
 
                 _interaction = new Interaction(
@@ -146,7 +146,7 @@ namespace Vcr.HttpRecorder
                 _interaction = await _anonymizer.Anonymize(_interaction, cancellationToken);
                 _interaction = await _repository.StoreAsync(_interaction, cancellationToken);
 
-                return await PostProcessResponse(newInteractionMessage.Response);
+                return await PostProcessResponse(innerResponse);
             }
             finally
             {
