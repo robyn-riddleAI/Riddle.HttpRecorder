@@ -36,11 +36,11 @@ namespace Vcr.HttpRecorder
         /// Indicates whether <paramref name="content"/> represents string in utf8 encoding.
         /// </summary>
         /// <param name="content">The <see cref="HttpContent"/>.</param>
-        /// <returns>true if content-encoding is utf8, false otherwise.</returns>
+        /// <returns>true if content-encoding is utf8 or null, false otherwise.</returns>
         public static bool IsUtf8(this HttpContent content)
         {
             var contentType = content?.Headers?.ContentType?.CharSet;
-            return contentType == Utf8Encoding;
+            return contentType == null || contentType == Utf8Encoding;
         }
 
 
